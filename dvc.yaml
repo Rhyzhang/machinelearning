@@ -1,0 +1,18 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/
+      - configs/default_config.yaml
+    outs:
+      - data/processed/clean_data.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/clean_data.csv
+      - configs/default_config.yaml
+    # We don't list 'outs' for the model here because MLflow handles model artifact storage.
+    # However, if you wanted DVC to track the model file specifically, you would add it here.

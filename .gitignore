@@ -1,3 +1,36 @@
+# Environments
+.env
+.venv
+env/
+venv/
+
+# DVC
+/data/raw/*
+/data/processed/*
+!/data/raw/.gitkeep
+!/data/processed/.gitkeep
+.dvc/config.local
+.dvc/tmp/
+.dvc/cache/
+
+# # MLflow
+# mlruns/
+# .mlruns/
+
+
+
+
+
+
+
+
+
+
+###################
+# Python.gitignore
+###################
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
