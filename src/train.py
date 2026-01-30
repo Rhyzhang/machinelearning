@@ -5,6 +5,7 @@ This is slop right now. You need to modify it based on your dataset and model.
 import mlflow
 import mlflow.sklearn
 import pandas as pd
+import json
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
@@ -34,16 +35,25 @@ def train():
             random_state=42
         )
         model.fit(X_train, y_train)
-        
-        # 4. Metrics
+
+        # 4. Calculate Metrics 
         mse = mean_squared_error(y_test, model.predict(X_test))
         r2 = r2_score(y_test, model.predict(X_test))
         
+        # 5. Log Metrics
         mlflow.log_metric("mse", mse)
         mlflow.log_metric("r2", r2)
         mlflow.sklearn.log_model(model, "model")
         
         print(f"Training Complete. MSE: {mse:.2f} | R2: {r2:.4f}")
+
+        # 6. Save Metrics to JSON for DVC (THE FIX)
+        metrics = {
+            "mse": mse,
+            "r2": r2
+        }
+        with open("metrics.json", "w") as f:
+            json.dump(metrics, f, indent=4)
 
 if __name__ == "__main__":
     train()

@@ -17,9 +17,6 @@ stages:
     metrics:
       - metrics.json:
           cache: false
-    # Note: Metrics field added. For this to work perfectly, your train.py should ideally write a
-    # metrics.json file too, but MLflow will handle the visualization for this example.
-        
     
     # We don't list 'outs' for the model here because MLflow handles model artifact storage.
     # However, if you wanted DVC to track the model file specifically, you would add it here.
