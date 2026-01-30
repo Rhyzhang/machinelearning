@@ -10,7 +10,7 @@ def preprocess():
     raw_path = config['data']['raw_path']
     df = pd.read_csv(raw_path)
 
-`   # 2. Process data
+    # 2. Process data
     # Example processing for Salary Prediction dataset
     df = df[df['Salary'] > 0]
     
