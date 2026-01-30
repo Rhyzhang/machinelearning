@@ -49,6 +49,7 @@ Initialize DVC and set up your remote storage (Google Drive or Local).
 
 ```bash
 dvc init
+dvc config core.autostage true
 # Create a folder in Drive, get the ID from the URL
 dvc remote add -d storage gdrive://YOUR_FOLDER_ID_HERE
 git add .dvc/config
@@ -60,6 +61,7 @@ git commit -m "Setup DVC GDrive remote"
 
 ```bash
 dvc init
+dvc config core.autostage true
 dvc remote add -d storage /path/to/external/drive/dvc_cache
 git add .dvc/config
 git commit -m "Setup DVC local remote"
@@ -109,6 +111,8 @@ mlflow ui
 ```
 
 Open your browser to `http://127.0.0.1:5000`.
+
+Use DagsHub for remote MLFlow tracking.
 
 ---
 

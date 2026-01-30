@@ -14,8 +14,9 @@ venv/
 .dvc/cache/
 
 # # MLflow
-# mlruns/
-# .mlruns/
+mlruns/
+.mlruns/
+mlflow.db
 
 
 
