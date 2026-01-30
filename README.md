@@ -36,6 +36,9 @@ mamba activate MLproject
 # Install the local src package (Editable mode)
 pip install -e .
 
+# [Optional] Clean up :D
+mamba clean --all
+
 ```
 
 ### 2. DVC Initialization (Data Version Control)
