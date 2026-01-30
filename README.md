@@ -125,3 +125,106 @@ Open your browser to `http://127.0.0.1:5000`.
 * **Sync Data:** `dvc push`
 * **Clean Cache:** `dvc gc -w` (removes unused data versions from local cache)
 
+
+
+
+
+
+
+# How do I revert to a previous state?
+
+### Step 1: Find the "Time Travel" Coordinates (Commit Hash)
+
+You likely want to go back to a specific experiment you saw in MLflow.
+
+1. Open **MLflow UI** (`http://127.0.0.1:5000`).
+2. Click on the run you want to restore (e.g., the one with the best accuracy).
+3. Look for the **Git Commit** field in the Tags section.
+4. Copy the first 6-7 characters of that hash (e.g., `a1b2c3d`).
+
+---
+
+### Step 2: The Revert Process
+
+Open your terminal in the project root.
+
+#### 1. Revert the Code & Pointers (Git)
+
+Switch your code, config files, and DVC pointers (`.dvc` files) back to that specific moment.
+
+```bash
+git checkout a1b2c3d
+
+```
+
+* **What just happened:**
+* Your `src/train.py` reverted to the old version.
+* Your `configs/default_config.yaml` reverted to the old parameters (e.g., `n_estimators: 10`).
+* Your `dvc.lock` reverted to point to the **old** version of the dataset hash.
+* *Critically:* Your `data/` folder **has not changed yet**. It still holds the new data.
+
+
+
+#### 2. Revert the Data (DVC)
+
+Now, tell DVC to match the physical data to the pointers you just restored.
+
+```bash
+dvc checkout
+
+```
+
+* **What just happened:**
+* DVC read the old `dvc.lock` file.
+* It looked in your local cache (`.dvc/cache`) for the old data files.
+* It instantly swapped the files in `data/raw/` and `data/processed/` with the old versions.
+
+
+
+**You are now exactly where you were when you ran that experiment.** You can run `dvc repro` and it will reproduce the *exact same results*.
+
+---
+
+### Advanced Scenarios
+
+#### Scenario A: "I deleted my cache! `dvc checkout` failed!"
+
+If you ran `git checkout` but `dvc checkout` complains that files are missing (maybe you switched computers or cleared your cache), you simply pull them from the remote storage (GDrive).
+
+```bash
+dvc pull
+
+```
+
+#### Scenario B: "I want the Old Data, but I want to keep my New Code"
+
+Sometimes you don't want to revert the whole project. You just want to test your **newest algorithm** on the **oldest dataset**.
+
+1. **Stay on your current branch** (don't `git checkout` the whole project).
+2. **Checkout only the data pointer:**
+```bash
+# Get the .dvc file from the old commit
+git checkout a1b2c3d -- data/raw.dvc
+
+```
+
+
+3. **Sync the data:**
+```bash
+dvc checkout data/raw.dvc
+
+```
+
+
+4. **Update the lockfile (Important):**
+Since you have "New Code" + "Old Data", this is a *new state*. You must record it.
+```bash
+dvc repro
+
+```
+
+
+
+
+
+

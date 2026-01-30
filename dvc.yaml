@@ -3,16 +3,23 @@ stages:
     cmd: python src/preprocess.py
     deps:
       - src/preprocess.py
-      - data/raw/
+      - data/raw/salary_data.csv
       - configs/default_config.yaml
     outs:
-      - data/processed/clean_data.csv
+      - data/processed/salary_cleaned.csv
 
   train:
     cmd: python src/train.py
     deps:
       - src/train.py
-      - data/processed/clean_data.csv
+      - data/processed/salary_cleaned.csv
       - configs/default_config.yaml
+    metrics:
+      - metrics.json:
+          cache: false
+    # Note: Metrics field added. For this to work perfectly, your train.py should ideally write a
+    # metrics.json file too, but MLflow will handle the visualization for this example.
+        
+    
     # We don't list 'outs' for the model here because MLflow handles model artifact storage.
     # However, if you wanted DVC to track the model file specifically, you would add it here.
