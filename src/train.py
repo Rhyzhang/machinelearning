@@ -1,7 +1,3 @@
-"""
-This is slop right now. You need to modify it based on your dataset and model.
-"""
-
 import mlflow
 import mlflow.sklearn
 import pandas as pd
