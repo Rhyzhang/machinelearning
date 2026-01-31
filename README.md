@@ -67,6 +67,28 @@ git add .dvc/config
 git commit -m "Setup DVC local remote"
 
 ```
+*[Default on my machine by]*
+```bash
+# Check if the D drive is accessible (replace 'd' with your HDD letter)
+ls /mnt/d/
+
+# Create the centralized storage folder
+mkdir -p /mnt/d/dvc-central-store
+
+# Add the HDD folder as your remote
+dvc remote add -d local_hdd /mnt/d/dvc-central-store
+
+# Set the default remote globally for your user
+dvc config --global core.remote local_hdd
+
+# Define where 'local_hdd' is globally
+dvc config --global remote.local_hdd.url /mnt/d/dvc-central-store
+
+# [Optional]
+# Tell DVC to store the cache history on the HDD
+dvc config --global cache.dir /mnt/d/dvc-central-store
+
+```
 
 ---
 
