@@ -9,9 +9,11 @@ This project uses **MLflow** for experiment tracking, **DVC** for data versionin
 ├── data/                  # Local data storage (Ignored by Git)
 │   ├── raw/               # Original immutable data (Tracked by DVC)
 │   └── processed/         # Cleaned data ready for training
+├── mlruns/                # MLflow Folder (Ignored by Git)
 ├── notebooks/             # EDA and experimental notebooks
 ├── src/                   # Source code
 │   ├── train.py           # Training script (logs to MLflow)
+│   ├── predict.py         # Inference script (load from MLflow)
 │   ├── preprocess.py      # Data cleaning script
 │   └── utils.py           # Helper functions
 ├── dvc.yaml               # DVC Pipeline definition
